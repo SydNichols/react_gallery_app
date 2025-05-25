@@ -3,6 +3,7 @@ import Photo from "./Photo";
 // HTML photo container as guide - use to render list of Photo components
 
 const PhotoList = ({ photos, title }) => {
+    //photo list rendering with individual photo components and title
     return (
         <div className="photo-container">
             <h2>{title}</h2>

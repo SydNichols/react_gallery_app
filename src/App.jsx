@@ -10,9 +10,10 @@ import './index.css'
 function App() {
   const [photos, setPhotos] = useState([]);
   const [_loading, setLoading] = useState(false)
+  //hook to track URL location - set for back and forward button functionality
   const location = useLocation();
 
-  //Fetch data
+  //Fetch data from Pixabay
   const fetchData = async (query) => {
     setLoading(true);
     try {
@@ -20,6 +21,7 @@ function App() {
         `https://pixabay.com/api/?key=${apiKey}&q=${query}&image_type=photo&per_page=24`
       );
       const data = await response.json();
+      //update photos state with fetch photos
       setPhotos(data.hits);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -30,6 +32,7 @@ function App() {
   };
 
   //Loading defaulting data - cats search query
+  // effect to handle route changes, triggering when URL changes
   useEffect(() => {
     const path = location.pathname;
 
@@ -42,6 +45,8 @@ function App() {
     }
   }, [location.pathname]);
 
+  //rendering search bar, nav links, and photos arrays
+  // setting static routes as well as search routes from user queries
   return (
     <div className="container">
       <Search fetchData={fetchData} />
@@ -62,6 +67,7 @@ function App() {
 
 //search results component
 function SearchResults ({ photos, fetchData }) {
+  //extrancting query parameter from URL 
   const { query } = useParams();
 
   useEffect(() => {
@@ -69,7 +75,8 @@ function SearchResults ({ photos, fetchData }) {
       fetchData(query);
     }
   }, [query, fetchData]);
-
+  
+  //photo list rendering
   return <PhotoList photos={photos} title={`Results for "${query}"`} />
 }
 

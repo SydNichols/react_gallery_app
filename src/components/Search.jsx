@@ -2,9 +2,12 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Search = ({ fetchData }) => {
+    //state to manage input value
     const [searchText, setSearchText] = useState('');
+    //nav hook
     const navigate = useNavigate();
 
+    //handing form submission from search
     const handleSubmit = e => {
         e.preventDefault();
         fetchData(searchText);
