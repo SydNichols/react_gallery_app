@@ -55,18 +55,20 @@ function App() {
       <Routes>
         <Route path="/" element={ <Navigate to="/cats" replace />} />
 
-        <Route path="/cats" element={<PhotoList photos={photos} title="Cats" />} />
-        <Route path="/dogs" element={<PhotoList photos={photos} title="Dogs" />} />
-        <Route path="/birds" element={<PhotoList photos={photos} title="Birds" />} />
+        <Route path="/cats" element={<PhotoList photos={photos} title="Cats" loading={loading} />} />
+        <Route path="/dogs" element={<PhotoList photos={photos} title="Dogs" loading={loading} />} />
+        <Route path="/birds" element={<PhotoList photos={photos} title="Birds" loading={loading} />} />
 
-        <Route path="/search/:query" element={<SearchResults photos={photos} fetchData={fetchData} />} />
+        <Route path="/search/:query" element={<SearchResults photos={photos} fetchData={fetchData} loading={loading} />} />
+
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   )
 }
 
 //search results component
-function SearchResults ({ photos, fetchData }) {
+function SearchResults ({ photos, fetchData, loading }) {
   //extrancting query parameter from URL 
   const { query } = useParams();
 
@@ -75,9 +77,21 @@ function SearchResults ({ photos, fetchData }) {
       fetchData(query);
     }
   }, [query, fetchData]);
-  
+
   //photo list rendering
-  return <PhotoList photos={photos} title={`Results for "${query}"`} />
+  return <PhotoList photos={photos} title={`Results for "${query}"`} loading={loading} />
+}
+
+function NotFound() {
+  return (
+    <div className="photo-container">
+      <h2>404 - Page Not Found</h2>
+      <div className="not-found">
+        <h3>Oops! The page you're looking for doesn't exist.</h3>
+        <p>Please check the URL or navigate back to the home page.</p>
+      </div>
+    </div>
+  );
 }
 
 export default App

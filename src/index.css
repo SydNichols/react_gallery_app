@@ -123,3 +123,11 @@ input {
     width: 100px;
   }
 }
+
+/* Loading indicator styles */
+.loading {
+  text-align: center;
+  padding: 20px;
+  font-size: 1.2em;
+  color: #438bbd;
+}

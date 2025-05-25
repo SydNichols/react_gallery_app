@@ -1,21 +1,13 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink} from "react-router-dom";
 
 //use main-nav div in HTML to create Nav component
-const Nav = ({fetchData}) => {
-    const navigate = useNavigate();
-
-    //nav click handler
-    const handleNavClick = (topic, path) => {
-        fetchData(topic);
-        navigate(path);
-    };
-
+const Nav = () => {
     return (
         <nav className="main-nav">
             <ul>
-                <li><NavLink to="/cats" onClick={() => handleNavClick('cats', '/cats')}>Cats</NavLink></li>
-                <li><NavLink to="/dogs" onClick={() => handleNavClick('dogs', '/dogs')}>Dogs</NavLink></li>
-                <li><NavLink to="/birds" onClick={() => handleNavClick('birds', '/birds')}>Birds</NavLink></li>
+                <li><NavLink to="/cats">Cats</NavLink></li>
+                <li><NavLink to="/dogs">Dogs</NavLink></li>
+                <li><NavLink to="/birds">Birds</NavLink></li>
             </ul>
         </nav>
     );
