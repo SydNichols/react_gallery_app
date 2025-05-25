@@ -1,6 +1,6 @@
 
 import {useState, useEffect } from 'react'
-import { Route, Routes, Navigate } from 'react-router-dom'
+import { Route, Routes, Navigate, useParams } from 'react-router-dom'
 import Search from './components/Search'
 import Nav from './components/Nav'
 import PhotoList from './components/PhotoList'
@@ -16,7 +16,7 @@ function App() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://pixabay.com/api/?key=${apiKey}&q${query}&image_type=photot&per_page=24`
+        `https://pixabay.com/api/?key=${apiKey}&q=${query}&image_type=photo&per_page=24`
       );
       const data = await response.json();
       setPhotos(data.hits);
@@ -41,11 +41,11 @@ function App() {
       <Routes>
         <Route path="/" element={ <Navigate to="/cats" replace />} />
 
-        <Route path="/cats" element={<PhotoList photos={[]} title="Cats" />} />
-        <Route path="/dogs" element={<PhotoList photos={[]} title="Dogs" />} />
-        <Route path="/birds" element={<PhotoList photos={[]} title="Birds" />} />
+        <Route path="/cats" element={<PhotoList photos={photos} title="Cats" />} />
+        <Route path="/dogs" element={<PhotoList photos={photos} title="Dogs" />} />
+        <Route path="/birds" element={<PhotoList photos={photos} title="Birds" />} />
 
-        <Route path="/search/:query" element={<PhotoList photos={[]} title="Search Results" />} />
+        <Route path="/search/:query" element={<SearchResults photos={photos} fetchData={fetchData} />} />
       </Routes>
     </div>
   )
@@ -61,7 +61,7 @@ function SearchResults ({ photos, fetchData }) {
     }
   }, [query, fetchData]);
 
-  return <PhotoList photos={photos} title={`Results for"${query}"`} />
+  return <PhotoList photos={photos} title={`Results for "${query}"`} />
 }
 
 export default App
