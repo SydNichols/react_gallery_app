@@ -1,6 +1,6 @@
 
 import {useState, useEffect } from 'react'
-import { Route, Routes, Navigate, useParams } from 'react-router-dom'
+import { Route, Routes, Navigate, useParams, useLocation } from 'react-router-dom'
 import Search from './components/Search'
 import Nav from './components/Nav'
 import PhotoList from './components/PhotoList'
@@ -10,6 +10,7 @@ import './index.css'
 function App() {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false)
+  const location = useLocation();
 
   //Fetch data
   const fetchData = async (query) => {
@@ -30,12 +31,20 @@ function App() {
 
   //Loading defaulting data - cats search query
   useEffect(() => {
-    fetchData('cats');
-  }, []);
+    const path = location.pathname;
+
+    if (path === '/cats') {
+      fetchData('cats');
+    } else if (path === '/dogs') {
+      fetchData('dogs');
+    } else if (path === '/birds') {
+      fetchData('birds');
+    }
+  }, [location.pathname]);
 
   return (
     <div className="container">
-      <Search></Search>
+      <Search fetchData={fetchData} />
       <Nav fetchData={fetchData}/>
 
       <Routes>
