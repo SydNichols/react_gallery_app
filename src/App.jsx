@@ -16,7 +16,7 @@ function App() {
     setLoading(true);
     try {
       const response = await fetch(
-        `https://pixavay.com/api/?key=${apiKey}&q${query}&image_type=photot&per_page=24`
+        `https://pixabay.com/api/?key=${apiKey}&q${query}&image_type=photot&per_page=24`
       );
       const data = await response.json();
       setPhotos(data.hits);
