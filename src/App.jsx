@@ -8,9 +8,11 @@ import apiKey from './config'
 
 function App() {
   const [photos, setPhotos] = useState([]);
+  const [loading, setLoading] = useState(false)
 
   //Fetch data
   const fetchData = async (query) => {
+    setLoading(true);
     try {
       const response = await fetch(
         `https://pixavay.com/api/?key=${apiKey}&q${query}&image_type=photot&per_page=24`
@@ -20,6 +22,8 @@ function App() {
     } catch (error) {
       console.error('Error fetching data:', error);
       setPhotos([])
+    } finally {
+      setLoading(false)
     }
   };
 
