@@ -1,6 +1,5 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
+import {useState, useEffect } from 'react'
 import { Route, Routes, Navigate } from 'react-router-dom'
 import Search from './components/Search'
 import Nav from './components/Nav'
@@ -8,12 +7,41 @@ import PhotoList from './components/PhotoList'
 import apiKey from './config'
 
 function App() {
+  const [photos, setPhotos] = useState([]);
+
+  //Fetch data
+  const fetchData = async (query) => {
+    try {
+      const response = await fetch(
+        `https://pixavay.com/api/?key=${apiKey}&q${query}&image_type=photot&per_page=24`
+      );
+      const data = await response.json();
+      setPhotos(data.hits);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setPhotos([])
+    }
+  };
+
+  //Loading defaulting data - cats search query
+  UseEffect(() => {
+    fetchData('cats');
+  }, []);
 
   return (
     <div className="container">
       <Search></Search>
       <Nav />
 
+      <Routes>
+        <Route path="/" element={ <Navigate to="/cats" replace />} />
+
+        <Route path="/cats" element={<PhotoList photos={[]} title="Cats" />} />
+        <Route path="/dogs" element={<PhotoList photos={[]} title="Dogs" />} />
+        <Route path="/birds" element={<PhotoList photos={[]} title="Birds" />} />
+
+        <Route path="/search/:query" element={<PhotoList photos={[]} title="Search Results" />} />
+      </Routes>
     </div>
   )
 }
