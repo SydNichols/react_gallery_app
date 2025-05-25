@@ -9,7 +9,7 @@ import './index.css'
 
 function App() {
   const [photos, setPhotos] = useState([]);
-  const [loading, setLoading] = useState(false)
+  const [_loading, setLoading] = useState(false)
   const location = useLocation();
 
   //Fetch data
