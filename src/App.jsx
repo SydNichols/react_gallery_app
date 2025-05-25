@@ -5,6 +5,7 @@ import Search from './components/Search'
 import Nav from './components/Nav'
 import PhotoList from './components/PhotoList'
 import apiKey from './config'
+import './index.css'
 
 function App() {
   const [photos, setPhotos] = useState([]);
@@ -28,7 +29,7 @@ function App() {
   };
 
   //Loading defaulting data - cats search query
-  UseEffect(() => {
+  useEffect(() => {
     fetchData('cats');
   }, []);
 
