@@ -50,4 +50,17 @@ function App() {
   )
 }
 
+//search results component
+function SearchResults ({ photos, fetchData }) {
+  const { query } = useParams();
+
+  useEffect(() => {
+    if (query) {
+      fetchData(query);
+    }
+  }, [query, fetchData]);
+
+  return <PhotoList photos={photos} title={`Results for"${query}"`} />
+}
+
 export default App
