@@ -35,7 +35,7 @@ function App() {
   return (
     <div className="container">
       <Search></Search>
-      <Nav />
+      <Nav fetchData={fetchData}/>
 
       <Routes>
         <Route path="/" element={ <Navigate to="/cats" replace />} />
