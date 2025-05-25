@@ -1,5 +1,5 @@
 
-import {useState, useEffect } from 'react'
+import {useState, useEffect, useCallback } from 'react'
 import { Route, Routes, Navigate, useParams, useLocation } from 'react-router-dom'
 import Search from './components/Search'
 import Nav from './components/Nav'
@@ -9,12 +9,12 @@ import './index.css'
 
 function App() {
   const [photos, setPhotos] = useState([]);
-  const [_loading, setLoading] = useState(false)
-  //hook to track URL location - set for back and forward button functionality
+  const [loading, setLoading] = useState(false)
+  //hook to track URL location set for back and forward button functionality
   const location = useLocation();
 
   //Fetch data from Pixabay
-  const fetchData = async (query) => {
+  const fetchData = useCallback(async (query) => {
     setLoading(true);
     try {
       const response = await fetch(
@@ -22,14 +22,18 @@ function App() {
       );
       const data = await response.json();
       //update photos state with fetch photos
-      setPhotos(data.hits);
+      if (data && data.hits) {
+        setPhotos(data.hits);
+      } else {
+        setPhotos([])
+      }
     } catch (error) {
       console.error('Error fetching data:', error);
       setPhotos([])
     } finally {
       setLoading(false)
     }
-  };
+  }, [apiKey]);
 
   //Loading defaulting data - cats search query
   // effect to handle route changes, triggering when URL changes
@@ -50,7 +54,7 @@ function App() {
   return (
     <div className="container">
       <Search fetchData={fetchData} />
-      <Nav fetchData={fetchData}/>
+      <Nav />
 
       <Routes>
         <Route path="/" element={ <Navigate to="/cats" replace />} />
